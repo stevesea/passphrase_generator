@@ -35,20 +35,39 @@ class ConnectionExample extends StatelessWidget {
             connect: (state) => state.count,
             builder: (BuildContext context, int count, CounterActions actions) {
               return new Scaffold(
-                appBar: AppBar(
-                  title: Text("thingy"),
-                  centerTitle: true,
-                ),
-                body: new Row(
-                  children: <Widget>[
-                    new RaisedButton(
-                      onPressed: actions.increment,
-                      child: new Text('Increment'),
+                  appBar: AppBar(
+                    title: Text("thingy"),
+                    centerTitle: true,
+                  ),
+                  body: Column(children: [
+                    Expanded(
+                        child: GridView.count(
+                            primary: false,
+                            padding: const EdgeInsets.all(5.0),
+                            crossAxisSpacing: 10.0,
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10.0,
+                            children: [5, 6, 7, 8, 9, 10, 11, 12]
+                                .map((i) => RaisedButton(
+                                    onPressed: () => print("1"),
+                                    child: Row(children: [
+                                      Padding(
+                                        child: Icon(Icons.shuffle),
+                                        padding: EdgeInsets.only(right: 5.0),
+                                      ),
+                                      Text("$i Words")
+                                    ])))
+                                .toList())),
+                    Row(
+                      children: <Widget>[
+                        RaisedButton(
+                          onPressed: actions.increment,
+                          child: Text('Increment'),
+                        ),
+                        Text('Count: $count'),
+                      ],
                     ),
-                    new Text('Count: $count'),
-                  ],
-                ),
-              );
+                  ]));
             },
           ),
         ),
@@ -81,17 +100,25 @@ class CounterWidget extends StoreConnector<Counter, CounterActions, int> {
   int connect(Counter state) => state.count;
 
   @override
-  Widget build(BuildContext context, int count, CounterActions actions) => new Scaffold(
-        body: new Row(
+  Widget build(BuildContext context, int count, CounterActions actions) => Scaffold(
+          body: Column(children: [
+        ButtonTheme.bar(
+            child: ButtonBar(alignment: MainAxisAlignment.spaceBetween, children: [
+          RaisedButton(onPressed: () => print("1"), child: Text("Gen1")),
+          RaisedButton(onPressed: () => print("1"), child: Text("Gen2")),
+          RaisedButton(onPressed: () => print("3"), child: Text("Gen3"))
+        ])),
+        Row(
           children: <Widget>[
-            new RaisedButton(
+            RaisedButton(
               onPressed: actions.increment,
-              child: new Text('Increment'),
+              child: Text('Increment'),
             ),
-            new Text('Count: $count'),
+            Text('Count: $count'),
+            Text("test"),
           ],
         ),
-      );
+      ]));
 }
 
 // Built redux counter state, actions, and reducer
