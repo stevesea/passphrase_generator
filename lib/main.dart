@@ -39,7 +39,13 @@ class ConnectionExample extends StatelessWidget {
                     title: Text("thingy"),
                     centerTitle: true,
                   ),
+                  floatingActionButton: new FloatingActionButton(
+                    onPressed: () => print("fab pressed"),
+                    tooltip: 'generate',
+                    child: new Icon(Icons.shuffle),
+                  ),
                   body: Column(children: [
+                    /*
                     Expanded(
                         child: GridView.count(
                             primary: false,
@@ -58,6 +64,7 @@ class ConnectionExample extends StatelessWidget {
                                       Text("$i Words")
                                     ])))
                                 .toList())),
+                                */
                     Row(
                       children: <Widget>[
                         RaisedButton(
