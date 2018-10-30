@@ -7,23 +7,21 @@ import 'package:passphrase_generator/actions/actions.dart';
 import 'package:passphrase_generator/middleware//middleware.dart';
 import 'package:passphrase_generator/models/models.dart';
 import 'package:passphrase_generator/reducers/reducers.dart';
-
-part 'main.g.dart';
+import 'package:passphrase_generator/screens/home_screen.dart';
 
 void main() {
   // create the store
   final store =
-      new Store<AppState, AppStateBuilder, AppActions>(reducerBuilder.build(), AppState(), AppActions(), middleware: [
+      Store<AppState, AppStateBuilder, AppActions>(reducerBuilder.build(), AppState(), AppActions(), middleware: [
     createMiddleware(),
   ]);
 
-  runApp(new ConnectionExample(store));
-  // or comment the line above and uncomment the line below
-  // runApp(new ConnectorExample(store));
+  runApp(PassphraseApp(store));
 }
 
 class PassphraseApp extends StatefulWidget {
-  final store = Store<AppState, AppStateBuilder, AppActions>();
+  final Store<AppState, AppStateBuilder, AppActions> store;
+  PassphraseApp(this.store);
 
   @override
   State<StatefulWidget> createState() {
@@ -34,13 +32,11 @@ class PassphraseApp extends StatefulWidget {
 class PassphraseAppState extends State<PassphraseApp> {
   Store<AppState, AppStateBuilder, AppActions> store;
 
-  PassphraseAppState() {}
+  PassphraseAppState();
 
   @override
   void initState() {
     store = widget.store;
-
-    //store.actions.fetchTodosAction();
 
     super.initState();
   }
@@ -53,7 +49,7 @@ class PassphraseAppState extends State<PassphraseApp> {
         title: 'asdf',
         routes: {
           '/': (context) {
-            return HomeScreen(key: ArchSampleKeys.homeScreen);
+            return HomeScreen();
           },
         },
       ),
