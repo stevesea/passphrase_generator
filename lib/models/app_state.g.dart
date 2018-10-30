@@ -34,6 +34,10 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       'num_words',
       serializers.serialize(object.num_words,
           specifiedType: const FullType(int)),
+      'results',
+      serializers.serialize(object.results,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
 
     return result;
@@ -54,6 +58,12 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
           result.num_words = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'results':
+          result.results.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(String)]))
+              as BuiltList);
+          break;
       }
     }
 
@@ -64,13 +74,18 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
 class _$AppState extends AppState {
   @override
   final int num_words;
+  @override
+  final BuiltList<String> results;
 
   factory _$AppState([void updates(AppStateBuilder b)]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.num_words}) : super._() {
+  _$AppState._({this.num_words, this.results}) : super._() {
     if (num_words == null) {
       throw new BuiltValueNullFieldError('AppState', 'num_words');
+    }
+    if (results == null) {
+      throw new BuiltValueNullFieldError('AppState', 'results');
     }
   }
 
@@ -84,18 +99,21 @@ class _$AppState extends AppState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AppState && num_words == other.num_words;
+    return other is AppState &&
+        num_words == other.num_words &&
+        results == other.results;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, num_words.hashCode));
+    return $jf($jc($jc(0, num_words.hashCode), results.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
-          ..add('num_words', num_words))
+          ..add('num_words', num_words)
+          ..add('results', results))
         .toString();
   }
 }
@@ -107,11 +125,17 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   int get num_words => _$this._num_words;
   set num_words(int num_words) => _$this._num_words = num_words;
 
+  ListBuilder<String> _results;
+  ListBuilder<String> get results =>
+      _$this._results ??= new ListBuilder<String>();
+  set results(ListBuilder<String> results) => _$this._results = results;
+
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
       _num_words = _$v.num_words;
+      _results = _$v.results?.toBuilder();
       _$v = null;
     }
     return this;
@@ -132,7 +156,21 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
   @override
   _$AppState build() {
-    final _$result = _$v ?? new _$AppState._(num_words: num_words);
+    _$AppState _$result;
+    try {
+      _$result = _$v ??
+          new _$AppState._(num_words: num_words, results: results.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'results';
+        results.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'AppState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
